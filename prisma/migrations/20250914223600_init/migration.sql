@@ -1,0 +1,34 @@
+-- CreateTable
+CREATE TABLE "User" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "created_date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "name" TEXT,
+    "email" TEXT,
+    "password" TEXT,
+    "is_active" INTEGER NOT NULL DEFAULT 1
+);
+
+-- CreateTable
+CREATE TABLE "Board" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "created_date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "name" TEXT,
+    "user_id" INTEGER NOT NULL,
+    CONSTRAINT "Board_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "ActionsUser" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "created_date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "board_id" INTEGER NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    CONSTRAINT "ActionsUser_board_id_fkey" FOREIGN KEY ("board_id") REFERENCES "Board" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "ActionsUser_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
